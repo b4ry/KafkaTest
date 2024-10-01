@@ -36,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapPost("/generateOdities", ([FromServices] IKafkaProducer kafkaProducer, int number) =>
+app.MapPost("/generateOdities", ([FromServices] IKafkaProducer kafkaProducer, int number, string key) =>
 {
     dynamic obj = new System.Dynamic.ExpandoObject();
     obj.A = number;
@@ -47,7 +47,7 @@ app.MapPost("/generateOdities", ([FromServices] IKafkaProducer kafkaProducer, in
     }
 
     var topic = "oddities";
-    var key = "Key_1";
+
     kafkaProducer.SendMessage(topic, key, obj);
 
     return obj;
